@@ -1,4 +1,4 @@
-import { Grid, Container } from "@mui/material";
+import { Grid, Container, Typography } from "@mui/material";
 import React, { useEffect, useContext, useState } from "react";
 import RememberanceCard from "../components/MyRememberance/RememberanceCard";
 import { web3Context } from "../contex/web3Context";
@@ -6,7 +6,7 @@ import { web3Context } from "../contex/web3Context";
 export default function MyRememberance() {
   const { getEpitaphs, account } = useContext(web3Context);
 
-  const [rememberances, setRememberances] = useState();
+  const [rememberances, setRememberances] = useState([]);
 
   useEffect(() => {
     if (account) {
@@ -36,16 +36,26 @@ export default function MyRememberance() {
   }, [account]);
 
   return (
-    <Container sx={{ padding: 2 }} flex justifyContent="flex-start">
+    <Container sx={{ padding: 2 }}>
       <Grid sx={{ flexGrow: 1 }} container spacing={2}>
         <Grid item xs={12}>
-          <Grid container justifyContent="center" spacing={2}>
-            {rememberances &&
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
+            {rememberances.length > 0 ? (
               rememberances.map((epitaph, index) => (
                 <Grid key={index} item>
                   <RememberanceCard epitaph={epitaph} />
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Typography variant="h5" gutterBottom>
+                You have no rememberances added yet.
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Grid>
