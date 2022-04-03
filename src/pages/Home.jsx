@@ -1,5 +1,11 @@
+import { Container } from "@mui/material";
 import React from "react";
+import RememberanceForm from "../components/Home/RememberanceForm";
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <Container>
+      <RememberanceForm />
+    </Container>
+  );
 }

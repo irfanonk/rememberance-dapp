@@ -44,7 +44,7 @@ export const Web3Provider = ({ children }) => {
   const getBalance = async (address) => {
     if (provider) {
       let balance = await provider.getBalance(address);
-      return formatBalance(fromBNtoEth(balance));
+      return fromBNtoEth(balance);
     }
   };
 

@@ -3,7 +3,7 @@ const formatAddress = (address) => {
 };
 
 const formatBalance = (balance) => {
-  return balance.slice(0, 7);
+  return balance.slice(0, 5);
 };
 
 export { formatAddress, formatBalance };

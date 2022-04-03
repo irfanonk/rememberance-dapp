@@ -9,10 +9,11 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
+import { formatAddress, formatBalance } from "../utils/helperUtils";
+import { ButtonGroup, Button } from "@mui/material";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -20,7 +21,6 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = () => {
   const { networkId, account, requestAccount, userBalance } =
     useContext(web3Context);
-  console.log("balance", networkId, account, userBalance);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -52,7 +52,7 @@ const Navbar = () => {
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -81,13 +81,14 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {/* {pages.map((page) => (
+              {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
-              ))} */}
+              ))}
             </Menu>
-          </Box>
+          </Box> */}
+
           <Typography
             variant="h6"
             noWrap
@@ -109,11 +110,6 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {/* <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip> */}
             {!networkId ? (
               <Link
                 href="https://metamask.io"
@@ -132,9 +128,38 @@ const Navbar = () => {
                 </IconButton>
               </Tooltip>
             ) : (
-              <Typography variant="h6" color={"white"} noWrap component="div">
-                {userBalance}
-              </Typography>
+              <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: { xs: 1, md: 2 },
+                    padding: { xs: 1, md: 2 },
+                    backgroundColor: "primary.dark",
+                    "&:hover": {
+                      backgroundColor: "secondary.main",
+                      opacity: [0.9, 0.8, 0.7],
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    color={"white"}
+                    noWrap
+                    component="div"
+                  >
+                    {formatBalance(userBalance)}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    color={"white"}
+                    noWrap
+                    component="div"
+                  >
+                    {formatAddress(account)}
+                  </Typography>
+                </Box>
+              </>
             )}
             {/* <Menu
               sx={{ mt: "45px" }}
