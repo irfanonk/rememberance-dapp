@@ -36,7 +36,7 @@ export default function MyRememberance() {
   }, [account]);
 
   return (
-    <Container sx={{ padding: 2 }}>
+    <Container sx={{ padding: 2 }} flex justifyContent="flex-start">
       <Grid sx={{ flexGrow: 1 }} container spacing={2}>
         <Grid item xs={12}>
           <Grid container justifyContent="center" spacing={2}>
