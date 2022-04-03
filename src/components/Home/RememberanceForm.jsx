@@ -18,12 +18,13 @@ const defaultValues = {
   lastName: "",
   birthCity: "",
   birthCountry: "",
-  birthDate: "",
+  birthDate: "1970-01-01",
   deathDate: "",
   notes: "",
 };
 const RememberanceForm = () => {
   const [formValues, setFormValues] = useState(defaultValues);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -39,18 +40,12 @@ const RememberanceForm = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    console.log("formValues", formValues);
   };
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+
   return (
     <form onSubmit={handleSubmit}>
-      <Item>
+      <>
         <Grid container spacing={2} marginTop={2}>
           <Grid item xs={12} md={6}>
             <TextField
@@ -92,7 +87,7 @@ const RememberanceForm = () => {
               fullWidth
               id="birthCountry-input"
               name="birthCountry"
-              label="Contry of Birth"
+              label="Country of Birth"
               type="text"
               value={formValues.birthCountry}
               onChange={handleInputChange}
@@ -102,10 +97,11 @@ const RememberanceForm = () => {
             {" "}
             <TextField
               fullWidth
-              id="birthDate-input"
+              id="outlined"
               name="birthDate"
               label="Date of Birth"
-              type="text"
+              type="date"
+              InputLabelProps={{ shrink: true, required: true }}
               value={formValues.birthDate}
               onChange={handleInputChange}
             />
@@ -114,10 +110,11 @@ const RememberanceForm = () => {
             {" "}
             <TextField
               fullWidth
-              id="deathDate-input"
+              id="outlined"
               name="deathDate"
               label="Date of Death"
-              type="text"
+              type="date"
+              InputLabelProps={{ shrink: true, required: true }}
               value={formValues.deathDate}
               onChange={handleInputChange}
             />
@@ -148,7 +145,7 @@ const RememberanceForm = () => {
             </Button>
           </Grid>
         </Grid>
-      </Item>
+      </>
     </form>
   );
 };
