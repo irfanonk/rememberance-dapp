@@ -26,6 +26,11 @@ export const Web3Provider = ({ children }) => {
     provider
   );
 
+  const getEpitaphs = async (address) => {
+    const epitaps = await contract.epitaphs(address, 2);
+    return epitaps;
+  };
+
   const requestAccount = async () => {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
@@ -102,6 +107,7 @@ export const Web3Provider = ({ children }) => {
         networkId,
         isSupportMetaMask,
         userBalance,
+        getEpitaphs,
       }}
     >
       {children}
