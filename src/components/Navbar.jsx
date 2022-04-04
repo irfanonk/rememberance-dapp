@@ -46,16 +46,11 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            onClick={() => navigate("/")}
-            cursor="pointer"
-          >
-            LOGO
-          </Typography>
+          <Avatar
+            alt="Metamask"
+            src="https://cryogen.life/images/CRYOGEN_smallerTrans.png"
+            sx={{ width: 56, height: 56 }}
+          />
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -131,7 +126,10 @@ const Navbar = () => {
             ) : !account ? (
               <Tooltip title="Connect">
                 <IconButton onClick={requestAccount} sx={{ p: 0 }}>
-                  <Avatar alt="Metamask" src="../assest/images/metamask.png" />
+                  <Avatar
+                    alt="Metamask"
+                    src={require("../assets/images/metamask.png")}
+                  />
                 </IconButton>
               </Tooltip>
             ) : (
