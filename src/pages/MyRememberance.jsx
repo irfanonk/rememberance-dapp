@@ -7,13 +7,12 @@ export default function MyRememberance() {
   const { getAddressEpitaphCount, getEpitaphs, account } =
     useContext(web3Context);
 
-  const [rememberances, setRememberances] = useState({});
+  const [rememberances, setRememberances] = useState([]);
   const [message, setMessage] = useState(
     "Please connect to MetaMask to view your rememberances."
   );
 
   useEffect(() => {
-    console.log("rememberances", rememberances, account);
     if (account) {
       (async () => {
         let epitaphs = [];
@@ -45,7 +44,6 @@ export default function MyRememberance() {
 
     return () => {};
   }, [account]);
-  console.log("rememberances", rememberances);
 
   return (
     <Container sx={{ padding: 2 }}>

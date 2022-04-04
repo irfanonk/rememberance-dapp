@@ -27,7 +27,6 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RememberanceCard({ epitaph }) {
-  console.log("epitaph", epitaph);
   const {
     firstName,
     lastName,

@@ -26,6 +26,11 @@ export const Web3Provider = ({ children }) => {
     provider
   );
 
+  const getFee = async () => {
+    const fee = await contract.fee();
+    return fee;
+  };
+
   const getEpitaphs = async (address, order) => {
     const epitaps = await contract.epitaphs(address, order);
     return epitaps;
@@ -45,6 +50,8 @@ export const Web3Provider = ({ children }) => {
       deathDate,
       notes,
     } = data;
+    const fee = await getFee();
+    const options = { value: fee };
     const tx = await contract
       .connect(provider.getSigner())
       .createEpitaph(
@@ -54,7 +61,8 @@ export const Web3Provider = ({ children }) => {
         birthCountry,
         birthDate,
         deathDate,
-        notes
+        notes,
+        options
       );
     const result = await tx.wait();
     return result;
@@ -80,6 +88,16 @@ export const Web3Provider = ({ children }) => {
       let balance = await provider.getBalance(address);
       return fromBNtoEth(balance);
     }
+  };
+
+  const filterEpitaphs = async (firstNaame, lastName, birthCity) => {
+    let eventFilter = contract.filters.EpitaphEvent(
+      firstNaame || null,
+      lastName || null,
+      birthCity || null
+    );
+    let events = await contract.queryFilter(eventFilter);
+    return events;
   };
 
   const loadWeb3 = async () => {
@@ -140,6 +158,7 @@ export const Web3Provider = ({ children }) => {
         getEpitaphs,
         getAddressEpitaphCount,
         createEpitaph,
+        filterEpitaphs,
       }}
     >
       {children}
