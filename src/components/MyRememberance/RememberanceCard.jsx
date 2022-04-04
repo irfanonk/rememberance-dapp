@@ -45,7 +45,15 @@ export default function RememberanceCard({ epitaph }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 400, minWidth: 300, minHeight: 500, margin: "auto" }}>
+    <Card
+      variant="outlined"
+      sx={{
+        maxWidth: 400,
+        minWidth: 300,
+        minHeight: 500,
+        backgroundColor: "#e1e1e1",
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
