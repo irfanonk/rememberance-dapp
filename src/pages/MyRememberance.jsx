@@ -9,15 +9,16 @@ export default function MyRememberance() {
 
   const [rememberances, setRememberances] = useState({});
   const [message, setMessage] = useState(
-    "You have no rememberances added yet."
+    "Please connect to MetaMask to view your rememberances."
   );
 
   useEffect(() => {
-    console.log("rememberances", rememberances);
+    console.log("rememberances", rememberances, account);
     if (account) {
       (async () => {
         let epitaphs = [];
         try {
+          setMessage("You have no rememberances.");
           const count = await getAddressEpitaphCount(account);
           if (count > 0) {
             setMessage("Getting your rememberances...");

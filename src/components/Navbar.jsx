@@ -17,8 +17,7 @@ import Link from "@mui/material/Link";
 import { formatAddress, formatBalance } from "../utils/helperUtils";
 import { ButtonGroup, Button } from "@mui/material";
 
-const pages = ["add", "search"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Add", "Search"];
 
 const Navbar = () => {
   const { networkId, account, requestAccount, userBalance } =
@@ -47,9 +46,15 @@ const Navbar = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Avatar
+            onClick={() => navigate("/")}
             alt="Metamask"
             src="https://cryogen.life/images/CRYOGEN_smallerTrans.png"
-            sx={{ width: 56, height: 56 }}
+            sx={{
+              cursor: "pointer",
+              width: 56,
+              height: 56,
+              display: { xs: "none", md: "flex" },
+            }}
           />
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -89,16 +94,18 @@ const Navbar = () => {
             </Menu>
           </Box>
 
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+          {/* <Avatar
             onClick={() => navigate("/")}
-            cursor="pointer"
-          >
-            LOGO
-          </Typography>
+            alt="Metamask"
+            src="https://cryogen.life/images/CRYOGEN_smallerTrans.png"
+            sx={{
+              marginRight: 4,
+              cursor: "pointer",
+              width: 40,
+              height: 50,
+              display: { xs: "flex", md: "none" },
+            }}
+          /> */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -119,7 +126,7 @@ const Navbar = () => {
                 rel="noopenner noreferrer"
                 underline="none"
               >
-                <Typography variant="h6" color={"white"} noWrap component="div">
+                <Typography color={"white"} noWrap component="div">
                   Install Metamask
                 </Typography>
               </Link>
@@ -147,20 +154,10 @@ const Navbar = () => {
                     },
                   }}
                 >
-                  <Typography
-                    variant="h6"
-                    color={"white"}
-                    noWrap
-                    component="div"
-                  >
+                  <Typography color={"white"} noWrap component="div">
                     {formatBalance(userBalance)}
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    color={"white"}
-                    noWrap
-                    component="div"
-                  >
+                  <Typography color={"white"} noWrap component="div">
                     {formatAddress(account)}
                   </Typography>
                 </Box>
