@@ -26,9 +26,38 @@ export const Web3Provider = ({ children }) => {
     provider
   );
 
-  const getEpitaphs = async (address) => {
-    const epitaps = await contract.epitaphs(address, 2);
+  const getEpitaphs = async (address, order) => {
+    const epitaps = await contract.epitaphs(address, order);
     return epitaps;
+  };
+
+  const getAddressEpitaphCount = async (address) => {
+    const count = await contract.getAddressEpitaphCount(address);
+    return count;
+  };
+  const createEpitaph = async (data) => {
+    const {
+      firstName,
+      lastName,
+      birthCity,
+      birthCountry,
+      birthDate,
+      deathDate,
+      notes,
+    } = data;
+    const tx = await contract
+      .connect(provider.getSigner())
+      .createEpitaph(
+        firstName,
+        lastName,
+        birthCity,
+        birthCountry,
+        birthDate,
+        deathDate,
+        notes
+      );
+    const result = await tx.wait();
+    return result;
   };
 
   const requestAccount = async () => {
@@ -76,11 +105,12 @@ export const Web3Provider = ({ children }) => {
         // setNetworkId(networkId);
       });
       window.ethereum.on("accountsChanged", async function (acc) {
+        window.location.reload();
         if (acc.length > 0) {
           // changed account
-          setAccount(acc[0]);
-          const balance = await getBalance(acc[0]);
-          setUserBalance(balance);
+          // setAccount(acc[0]);
+          // const balance = await getBalance(acc[0]);
+          // setUserBalance(balance);
         } else {
           // disconnect
           setAccount([]);
@@ -108,6 +138,8 @@ export const Web3Provider = ({ children }) => {
         isSupportMetaMask,
         userBalance,
         getEpitaphs,
+        getAddressEpitaphCount,
+        createEpitaph,
       }}
     >
       {children}

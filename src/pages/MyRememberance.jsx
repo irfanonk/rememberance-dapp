@@ -4,28 +4,38 @@ import RememberanceCard from "../components/MyRememberance/RememberanceCard";
 import { web3Context } from "../contex/web3Context";
 
 export default function MyRememberance() {
-  const { getEpitaphs, account } = useContext(web3Context);
+  const { getAddressEpitaphCount, getEpitaphs, account } =
+    useContext(web3Context);
 
-  const [rememberances, setRememberances] = useState([]);
+  const [rememberances, setRememberances] = useState({});
+  const [message, setMessage] = useState(
+    "You have no rememberances added yet."
+  );
 
   useEffect(() => {
+    console.log("rememberances", rememberances);
     if (account) {
       (async () => {
         let epitaphs = [];
         try {
-          const epitaph = await getEpitaphs(account);
-          console.log("epitaph, ", epitaph);
-          epitaphs.push({
-            id: 0,
-            firstName: epitaph.firstName,
-            lastName: epitaph.lastName,
-            birthCity: epitaph.birthCity,
-            birthCountry: epitaph.birthCountry,
-            birthDate: epitaph.birthDate,
-            deathDate: epitaph.deathDate,
-            notes: epitaph.notes,
-          });
-          setRememberances(epitaphs);
+          const count = await getAddressEpitaphCount(account);
+          if (count > 0) {
+            setMessage("Getting your rememberances...");
+            for (let i = 0; i < count; i++) {
+              const epitaph = await getEpitaphs(account, i);
+              epitaphs.push({
+                id: i,
+                firstName: epitaph.firstName,
+                lastName: epitaph.lastName,
+                birthCity: epitaph.birthCity,
+                birthCountry: epitaph.birthCountry,
+                birthDate: epitaph.birthDate,
+                deathDate: epitaph.deathDate,
+                notes: epitaph.notes,
+              });
+              setRememberances([...epitaphs]);
+            }
+          }
         } catch (error) {
           console.log("error", error);
         }
@@ -34,6 +44,7 @@ export default function MyRememberance() {
 
     return () => {};
   }, [account]);
+  console.log("rememberances", rememberances);
 
   return (
     <Container sx={{ padding: 2 }}>
@@ -53,7 +64,7 @@ export default function MyRememberance() {
               ))
             ) : (
               <Typography variant="h5" gutterBottom>
-                You have no rememberances added yet.
+                {message}
               </Typography>
             )}
           </Grid>

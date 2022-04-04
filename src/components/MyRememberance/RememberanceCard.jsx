@@ -27,6 +27,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RememberanceCard({ epitaph }) {
+  console.log("epitaph", epitaph);
   const {
     firstName,
     lastName,
@@ -44,7 +45,7 @@ export default function RememberanceCard({ epitaph }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 400, minWidth: 350 }}>
+    <Card sx={{ maxWidth: 400, minWidth: 300, minHeight: 500, margin: "auto" }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
