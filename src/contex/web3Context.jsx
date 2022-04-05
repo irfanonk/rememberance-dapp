@@ -2,7 +2,11 @@ import React, { createContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 
 import { formatUntis, fromBNtoEth, parseUnits } from "../utils/etherUtils";
-import { rememberanceAddress, rememberanceAbi } from "../contracts/constants";
+import {
+  rememberanceAddress,
+  rememberanceAbi,
+  startBlock,
+} from "../contracts/constants";
 import { formatBalance } from "../utils/helperUtils";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -151,7 +155,9 @@ export const Web3Provider = ({ children }) => {
       lastName || null,
       birthCity || null
     );
-    let events = await contract.queryFilter(eventFilter);
+    console.log("eventFilter", eventFilter);
+
+    let events = await contract.queryFilter(eventFilter, startBlock, "latest");
     return events;
   };
 

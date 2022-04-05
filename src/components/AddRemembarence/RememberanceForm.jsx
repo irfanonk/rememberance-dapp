@@ -18,7 +18,7 @@ import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const defaultValues = {
-  firstName: "Jane ",
+  firstName: "Jane",
   lastName: "Kennedy",
   birthCity: "Pennsylvania",
   birthCountry: "USA",
@@ -40,12 +40,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
       [name]: value,
     });
   };
-  const handleSliderChange = (name) => (e, value) => {
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
-  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsSumModalOpen(true);
