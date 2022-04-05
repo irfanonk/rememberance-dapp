@@ -99,7 +99,6 @@ export const Web3Provider = ({ children }) => {
     const event = events.filter((event) => event.name === eventName)[0];
     // getting the types for the event signature
     const types = event.inputs.map((input) => input.type);
-    console.log("e1 ", types, event);
 
     // knowing which types are indexed will be useful later
     let indexedInputs = [];
@@ -109,17 +108,10 @@ export const Web3Provider = ({ children }) => {
     });
     // event signature
     const eventSig = `${event.name}(${types.toString()})`;
-    console.log("eventSig", eventSig, typeof eventSig);
 
     // getting the topic
     const eventTopic = ethers.utils.id(eventSig);
 
-    console.log("eventTopic", eventTopic);
-    // you could also filter by blocks using fromBlock and toBlock
-    // const logs = await provider.getLogs({
-    //   address: rememberanceAddress,
-    //   topics: [eventTopic],
-    // });
     const logs = await provider.getLogs({
       fromBlock: 0,
       toBlock: "latest",
@@ -202,8 +194,6 @@ export const Web3Provider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      console.log("filter", await eventFilter());
-
       await handleStartUp();
     })();
 

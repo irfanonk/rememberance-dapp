@@ -78,17 +78,17 @@ export default function RememberanceCard({ epitaph }) {
         <Typography variant="body2">{notes}</Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Link
-          href={`https://rinkeby.etherscan.io/tx/${txHash}`}
-          target="_blank"
-          rel="noopenner noreferrer"
-          underline="none"
-        >
-          <TravelExploreIcon />
-        </Link>
-        {/* <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
+        {txHash && (
+          <Link
+            href={`https://rinkeby.etherscan.io/tx/${txHash}`}
+            target="_blank"
+            rel="noopenner noreferrer"
+            underline="none"
+          >
+            <TravelExploreIcon />
+          </Link>
+        )}
+
         {/* <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

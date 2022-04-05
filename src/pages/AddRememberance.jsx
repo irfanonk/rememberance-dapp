@@ -20,6 +20,7 @@ export default function AddRememberance() {
       setTxHash(result.transactionHash);
     } catch (error) {
       console.log("error", error);
+      setIsCreating(false);
     }
   };
   const handleClose = () => {

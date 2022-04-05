@@ -23,6 +23,7 @@ export default function MyRememberance() {
             setMessage("Getting your rememberances...");
             for (let i = 0; i < count; i++) {
               const epitaph = await getEpitaphs(account, i);
+              // console.log("epitaph", epitaph);
               epitaphs.push({
                 id: i,
                 firstName: epitaph.firstName,

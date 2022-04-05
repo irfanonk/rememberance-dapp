@@ -18,10 +18,10 @@ import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const defaultValues = {
-  firstName: "kamil",
-  lastName: "kamil",
-  birthCity: "Adana",
-  birthCountry: "Adana",
+  firstName: "Jane ",
+  lastName: "Kennedy",
+  birthCity: "Pennsylvania",
+  birthCountry: "USA",
   birthDate: "1970-01-01",
   deathDate: "2020-01-01",
   notes:
