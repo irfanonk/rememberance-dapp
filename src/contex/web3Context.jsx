@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { formatUntis, fromBNtoEth, parseUnits } from "../utils/etherUtils";
 import { rememberanceAddress, rememberanceAbi } from "../contracts/constants";
 import { formatBalance } from "../utils/helperUtils";
+import { type } from "@testing-library/user-event/dist/type";
 
 export const web3Context = createContext();
 
@@ -89,6 +90,68 @@ export const Web3Provider = ({ children }) => {
       return fromBNtoEth(balance);
     }
   };
+  const eventFilter = async (eventName = "EpitaphEvent") => {
+    // this will return an array with an object for each event
+    const events = rememberanceAbi.filter((obj) =>
+      obj.type ? obj.type === "event" : false
+    );
+    // getting the Transfer event and pulling it out of its array
+    const event = events.filter((event) => event.name === eventName)[0];
+    // getting the types for the event signature
+    const types = event.inputs.map((input) => input.type);
+    console.log("e1 ", types, event);
+
+    // knowing which types are indexed will be useful later
+    let indexedInputs = [];
+    let unindexedInputs = [];
+    event.inputs.forEach((input) => {
+      input.indexed ? indexedInputs.push(input) : unindexedInputs.push(input);
+    });
+    // event signature
+    const eventSig = `${event.name}(${types.toString()})`;
+    console.log("eventSig", eventSig, typeof eventSig);
+
+    // getting the topic
+    const eventTopic = ethers.utils.id(eventSig);
+
+    console.log("eventTopic", eventTopic);
+    // you could also filter by blocks using fromBlock and toBlock
+    // const logs = await provider.getLogs({
+    //   address: rememberanceAddress,
+    //   topics: [eventTopic],
+    // });
+    const logs = await provider.getLogs({
+      fromBlock: 0,
+      toBlock: "latest",
+      address: rememberanceAddress,
+      topic: event.name,
+    });
+    console.log("logs", logs);
+
+    // need to decode the topics and events
+    const decoder = new ethers.utils.AbiCoder();
+    const decodedLogs = logs.map((log) => {
+      // remember how we separated indexed and unindexed events?
+      // it was because we need to sort them differently here
+      const decodedTopics = indexedInputs.map((input) => {
+        // we use the position of the type in the array as an index for the
+        // topic, we need to add 1 since the first topic is the event signature
+        const value = decoder.decode(
+          input.type,
+          log.topics[indexedInputs.indexOf(input) + 1]
+        );
+        return `${input.name}: ${value}`;
+      });
+      const decodedDataRaw = decoder.decode(unindexedInputs, log.data);
+      const decodedData = unindexedInputs.map((input, i) => {
+        return `${input.name}: ${decodedDataRaw[i]}`;
+      });
+
+      return [...decodedTopics, ...decodedData];
+    });
+
+    return decodedLogs;
+  };
 
   const filterEpitaphs = async (firstNaame, lastName, birthCity) => {
     let eventFilter = contract.filters.EpitaphEvent(
@@ -139,7 +202,8 @@ export const Web3Provider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      await loadWeb3();
+      console.log("filter", await eventFilter());
+
       await handleStartUp();
     })();
 

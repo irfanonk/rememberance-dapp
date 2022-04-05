@@ -7,7 +7,7 @@ import { web3Context } from "../contex/web3Context";
 export default function SearchRememberance() {
   const { filterEpitaphs, getEpitaphs, account } = useContext(web3Context);
 
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [filteredEpitaphs, setFilteredEpitaphs] = useState([]);
   useEffect(() => {
     (async () => {
       // const filter = await filterEpitaphs("kamil", "kamil");
@@ -18,12 +18,31 @@ export default function SearchRememberance() {
   }, []);
 
   const handleSubmit = async (formValues) => {
-    console.log("submit", formValues);
     const { firstName, lastName, birthCity } = formValues;
+    let epitaphs = [];
     try {
       const filter = await filterEpitaphs(firstName, lastName, birthCity);
       console.log("filter", filter);
-      // setFilteredEvents(filter);
+      if (filter.length > 0) {
+        for (let i = 0; i < filter.length; i++) {
+          const { args, transactionHash } = filter[i];
+          // console.log("args", args);
+          epitaphs.push({
+            id: i,
+            firstName: args.firstNameStr,
+            lastName: args.lastNameStr,
+            birthCity: args.birthCityStr,
+            birthCountry: args.birthCountry,
+            birthDate: args.birthDate,
+            deathDate: args.deathDate,
+            notes: args.notes,
+            txHash: transactionHash,
+          });
+          setFilteredEpitaphs([...epitaphs]);
+          // console.log("epitaphs", epitaphs);
+        }
+      }
+      // setFilteredEpitaphs(filter);
     } catch (error) {
       console.log("error", error);
     }
@@ -46,8 +65,8 @@ export default function SearchRememberance() {
             alignItems="center"
             spacing={2}
           >
-            {filteredEvents ? (
-              filteredEvents.map((epitaph, index) => (
+            {filteredEpitaphs ? (
+              filteredEpitaphs.map((epitaph, index) => (
                 <Grid key={index} item>
                   <RememberanceCard epitaph={epitaph} />
                 </Grid>
