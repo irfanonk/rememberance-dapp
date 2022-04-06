@@ -30,7 +30,7 @@ const defaultValues = {
 };
 
 const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
-  const { networkId } = useContext(web3Context);
+  const { networkId, account } = useContext(web3Context);
 
   const [formValues, setFormValues] = useState(defaultValues);
 
@@ -210,6 +210,15 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
                   type="submit"
                 >
                   Install Metamask
+                </Button>
+              ) : !account ? (
+                <Button
+                  disabled={true}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Connect Metamask
                 </Button>
               ) : (
                 <Button
