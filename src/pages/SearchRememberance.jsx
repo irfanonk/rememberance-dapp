@@ -21,6 +21,7 @@ export default function SearchRememberance() {
   }, []);
 
   const handleSubmit = async (formValues) => {
+    setFilteredEpitaphs([]);
     setMessage("");
     const { firstName, lastName, birthCity } = formValues;
     const block = await getBlock();
@@ -39,7 +40,7 @@ export default function SearchRememberance() {
           _startBlock,
           _endBlock
         );
-        // console.log("filter", filter);
+        console.log("filter", filter);
         if (filter.length > 0) {
           for (let i = 0; i < filter.length; i++) {
             const { args, transactionHash } = filter[i];
@@ -57,8 +58,7 @@ export default function SearchRememberance() {
             });
             setFilteredEpitaphs([...epitaphs]);
           }
-        } else {
-          setFilteredEpitaphs([]);
+        } else if (epitaphs.length === 0) {
           setMessage("No records found!");
         }
       }
