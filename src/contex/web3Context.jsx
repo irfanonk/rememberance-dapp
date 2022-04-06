@@ -5,7 +5,7 @@ import { formatUntis, fromBNtoEth, parseUnits } from "../utils/etherUtils";
 import {
   rememberanceAddress,
   rememberanceAbi,
-  startBlock,
+  startBlockNumber,
 } from "../contracts/constants";
 import { formatBalance } from "../utils/helperUtils";
 import { type } from "@testing-library/user-event/dist/type";
@@ -149,16 +149,34 @@ export const Web3Provider = ({ children }) => {
     return decodedLogs;
   };
 
+  const getBlock = async () => {
+    const block = await provider.getBlock();
+    return block;
+  };
+  getBlock();
   const filterEpitaphs = async (firstNaame, lastName, birthCity) => {
-    let eventFilter = contract.filters.EpitaphEvent(
+    const eventFilter = contract.filters.EpitaphEvent(
       firstNaame || null,
       lastName || null,
       birthCity || null
     );
-    console.log("eventFilter", eventFilter);
+    // console.log("eventFilter", eventFilter);
+    const latestBlock = await getBlock();
+    const startBlock = startBlockNumber;
+    const endBlock = latestBlock.number;
+    let allEvents = [];
 
-    let events = await contract.queryFilter(eventFilter, startBlock, "latest");
-    return events;
+    for (let i = startBlock; i < endBlock; i += 5000) {
+      const _startBlock = i;
+      const _endBlock = Math.min(endBlock, i + 4999);
+      const events = await contract.queryFilter(
+        eventFilter,
+        _startBlock,
+        _endBlock
+      );
+      allEvents = [...allEvents, ...events];
+    }
+    return allEvents;
   };
 
   const loadWeb3 = async () => {
