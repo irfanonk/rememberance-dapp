@@ -18,15 +18,16 @@ import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const defaultValues = {
-  firstName: "Jane",
-  lastName: "Kennedy",
-  birthCity: "Pennsylvania",
+  firstName: "JANE",
+  lastName: "KENNEDY",
+  birthCity: "PENNSYLVANIA",
   birthCountry: "USA",
-  birthDate: "1970-01-01",
+  birthDate: "1940-01-01",
   deathDate: "2020-01-01",
   notes:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
 };
+
 const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
   const [formValues, setFormValues] = useState(defaultValues);
 
@@ -35,9 +36,10 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
   const handleClose = () => setIsSumModalOpen(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setFormValues({
       ...formValues,
-      [name]: value,
+      [name]: name !== "notes" ? value.toUpperCase() : value,
     });
   };
 
@@ -46,6 +48,9 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
     setIsSumModalOpen(true);
   };
   const onCreateClick = () => {
+    Object.keys(formValues).forEach(
+      (k) => (formValues[k] = formValues[k].trim())
+    );
     onRememberanceSumbit(formValues);
   };
 
@@ -85,7 +90,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
             {formValues.notes}
           </Typography>
           <Button
-            sx={{ textAlign: "center", minWidth: "100%" }}
+            sx={{ marginTop: 2, textAlign: "center", minWidth: "100%" }}
             disabled={isCreating}
             onClick={onCreateClick}
             variant="contained"

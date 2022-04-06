@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 
 export default function SearchForm({ handleSubmit }) {
   const [formValues, setFormValues] = useState({
-    firstName: "kamil",
+    firstName: "JANE",
     lastName: "",
     birthCity: "",
   });
@@ -13,12 +13,15 @@ export default function SearchForm({ handleSubmit }) {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
-      [name]: value,
+      [name]: value.toUpperCase(),
     });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+    Object.keys(formValues).forEach(
+      (k) => (formValues[k] = formValues[k].trim())
+    );
     handleSubmit(formValues);
   };
 

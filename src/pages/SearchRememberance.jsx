@@ -19,13 +19,12 @@ export default function SearchRememberance() {
   }, []);
 
   const handleSubmit = async (formValues) => {
-    console.log("formValues", formValues);
     setMessage("");
     const { firstName, lastName, birthCity } = formValues;
     let epitaphs = [];
     try {
       const filter = await filterEpitaphs(firstName, lastName, birthCity);
-      console.log("filter", filter);
+      // console.log("filter", filter);
       if (filter.length > 0) {
         for (let i = 0; i < filter.length; i++) {
           const { args, transactionHash } = filter[i];
