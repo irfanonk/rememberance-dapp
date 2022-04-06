@@ -4,9 +4,9 @@ import TextField from "@mui/material/TextField";
 
 export default function SearchForm({ handleSubmit }) {
   const [formValues, setFormValues] = useState({
-    firstName: "JANE",
+    firstName: "",
     lastName: "",
-    birthCity: "",
+    birthCity: "PENNSYLVANIA",
   });
 
   const handleInputChange = (e) => {
