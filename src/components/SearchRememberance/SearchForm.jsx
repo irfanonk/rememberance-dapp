@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Button, Card, CardHeader } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { web3Context } from "../../contex/web3Context";
 
 export default function SearchForm({ handleSubmit }) {
+  const { networkId } = useContext(web3Context);
+
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -72,18 +75,29 @@ export default function SearchForm({ handleSubmit }) {
             justifyContent="center"
             alignItems="center"
           >
-            <Button
-              disabled={
-                !formValues.firstName &&
-                !formValues.lastName &&
-                !formValues.birthCity
-              }
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              Submit
-            </Button>
+            {!networkId ? (
+              <Button
+                disabled={true}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Install Metamask
+              </Button>
+            ) : (
+              <Button
+                disabled={
+                  !formValues.firstName &&
+                  !formValues.lastName &&
+                  !formValues.birthCity
+                }
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Submit
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Card>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -16,6 +16,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
+import { web3Context } from "../../contex/web3Context";
 
 const defaultValues = {
   firstName: "JANE",
@@ -29,6 +30,8 @@ const defaultValues = {
 };
 
 const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
+  const { networkId } = useContext(web3Context);
+
   const [formValues, setFormValues] = useState(defaultValues);
 
   const [isSumModalOpen, setIsSumModalOpen] = useState(false);
@@ -46,6 +49,8 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsSumModalOpen(true);
+    let values = Object.values(formValues).filter((v) => v.trim() === "");
+    console.log("values", values);
   };
   const onCreateClick = () => {
     Object.keys(formValues).forEach(
@@ -197,9 +202,28 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
               justifyContent="center"
               alignItems="center"
             >
-              <Button variant="contained" color="primary" type="submit">
-                Submit
-              </Button>
+              {!networkId ? (
+                <Button
+                  disabled={true}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Install Metamask
+                </Button>
+              ) : (
+                <Button
+                  disabled={
+                    Object.values(formValues).filter((v) => v.trim() === "")
+                      .length > 0
+                  }
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              )}
             </Grid>
           </Grid>
         </>
