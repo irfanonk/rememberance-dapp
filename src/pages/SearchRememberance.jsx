@@ -3,9 +3,11 @@ import React, { useEffect, useContext, useState } from "react";
 import RememberanceCard from "../components/MyRememberance/RememberanceCard";
 import SearchBar from "../components/SearchRememberance/SearchForm";
 import { web3Context } from "../contex/web3Context";
+import { startBlockNumber } from "../contracts/constants";
 
 export default function SearchRememberance() {
-  const { filterEpitaphs, getEpitaphs, account } = useContext(web3Context);
+  const { filterEpitaphs, getEpitaphs, getBlock, account } =
+    useContext(web3Context);
 
   const [filteredEpitaphs, setFilteredEpitaphs] = useState([]);
   const [message, setMessage] = useState("");
@@ -21,32 +23,46 @@ export default function SearchRememberance() {
   const handleSubmit = async (formValues) => {
     setMessage("");
     const { firstName, lastName, birthCity } = formValues;
+    const block = await getBlock();
+    const endBlokcNumber = block.number;
+
     let epitaphs = [];
+
     try {
-      const filter = await filterEpitaphs(firstName, lastName, birthCity);
-      // console.log("filter", filter);
-      if (filter.length > 0) {
-        for (let i = 0; i < filter.length; i++) {
-          const { args, transactionHash } = filter[i];
-          // console.log("args", args);
-          epitaphs.push({
-            id: i,
-            firstName: args.firstNameStr,
-            lastName: args.lastNameStr,
-            birthCity: args.birthCityStr,
-            birthCountry: args.birthCountry,
-            birthDate: args.birthDate,
-            deathDate: args.deathDate,
-            notes: args.notes,
-            txHash: transactionHash,
-          });
-          setFilteredEpitaphs([...epitaphs]);
-          // console.log("epitaphs", epitaphs);
+      for (let i = startBlockNumber; i < endBlokcNumber; i += 5000) {
+        const _startBlock = i;
+        const _endBlock = Math.min(endBlokcNumber, i + 4999);
+        const filter = await filterEpitaphs(
+          firstName,
+          lastName,
+          birthCity,
+          _startBlock,
+          _endBlock
+        );
+        // console.log("filter", filter);
+        if (filter.length > 0) {
+          for (let i = 0; i < filter.length; i++) {
+            const { args, transactionHash } = filter[i];
+            // console.log("args", args);
+            epitaphs.push({
+              id: i,
+              firstName: args.firstNameStr,
+              lastName: args.lastNameStr,
+              birthCity: args.birthCityStr,
+              birthCountry: args.birthCountry,
+              birthDate: args.birthDate,
+              deathDate: args.deathDate,
+              notes: args.notes,
+              txHash: transactionHash,
+            });
+            setFilteredEpitaphs([...epitaphs]);
+          }
+        } else {
+          setFilteredEpitaphs([]);
+          setMessage("No records found!");
         }
-      } else {
-        setFilteredEpitaphs([]);
-        setMessage("No records found!");
       }
+
       // setFilteredEpitaphs(filter);
     } catch (error) {
       console.log("error", error);

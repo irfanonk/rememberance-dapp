@@ -153,30 +153,43 @@ export const Web3Provider = ({ children }) => {
     const block = await provider.getBlock();
     return block;
   };
-  getBlock();
-  const filterEpitaphs = async (firstNaame, lastName, birthCity) => {
+  const filterEpitaphs = async (
+    firstNaame,
+    lastName,
+    birthCity,
+    startBlock,
+    endBlock
+  ) => {
     const eventFilter = contract.filters.EpitaphEvent(
       firstNaame || null,
       lastName || null,
       birthCity || null
     );
     // console.log("eventFilter", eventFilter);
-    const latestBlock = await getBlock();
-    const startBlock = startBlockNumber;
-    const endBlock = latestBlock.number;
-    let allEvents = [];
+    const events = await contract.queryFilter(
+      eventFilter,
+      startBlock,
+      endBlock
+    );
+    return events;
+    // const latestBlock = await getBlock();
+    // const startBlock = startBlockNumber;
+    // const endBlock = latestBlock.number;
+    // console.log("diff", endBlock - startBlock);
+    // let allEvents = [];
 
-    for (let i = startBlock; i < endBlock; i += 5000) {
-      const _startBlock = i;
-      const _endBlock = Math.min(endBlock, i + 4999);
-      const events = await contract.queryFilter(
-        eventFilter,
-        _startBlock,
-        _endBlock
-      );
-      allEvents = [...allEvents, ...events];
-    }
-    return allEvents;
+    // for (let i = startBlock; i < endBlock; i += 5000) {
+    //   const _startBlock = i;
+    //   const _endBlock = Math.min(endBlock, i + 4999);
+    //   const events = await contract.queryFilter(
+    //     eventFilter,
+    //     _startBlock,
+    //     _endBlock
+    //   );
+    //   console.log("events", events);
+    //   allEvents = [...allEvents, ...events];
+    // }
+    // return allEvents;
   };
 
   const loadWeb3 = async () => {
@@ -237,6 +250,7 @@ export const Web3Provider = ({ children }) => {
         getAddressEpitaphCount,
         createEpitaph,
         filterEpitaphs,
+        getBlock,
       }}
     >
       {children}
