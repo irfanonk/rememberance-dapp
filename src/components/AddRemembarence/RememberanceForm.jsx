@@ -14,9 +14,9 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import CircularProgress from "@mui/material/CircularProgress";
+import { CircularProgress, LinearProgress } from "@mui/material";
 import { web3Context } from "../../contex/web3Context";
-import { DropzoneArea } from "material-ui-dropzone";
+import { DropzoneArea } from "react-mui-dropzone";
 const defaultValues = {
   firstName: "JANE",
   lastName: "KENNEDY",
@@ -29,7 +29,7 @@ const defaultValues = {
   picture: "",
 };
 
-const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
+const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
   const { networkId, account } = useContext(web3Context);
 
   const [formValues, setFormValues] = useState(defaultValues);
@@ -46,7 +46,6 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
     });
   };
   const handleDropChange = (files) => {
-    console.log("files", files);
     const { name, value } = files.target;
 
     setFormValues({
@@ -111,6 +110,21 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
           <Paper variant="elevation">
             <img src={formValues.pictureUrl} />
           </Paper>
+          {upload.isUploading ? (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Uploading image...
+              </Typography>
+            </Box>
+          ) : upload.isUploaded ? (
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Image Uploaded!
+            </Typography>
+          ) : (
+            ""
+          )}
+
           <Button
             sx={{ marginTop: 2, textAlign: "center", minWidth: "100%" }}
             disabled={isCreating}
@@ -227,6 +241,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
                 }
               />
             </Grid>
+
             <Grid
               container
               item
