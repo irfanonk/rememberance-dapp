@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
 import { web3Context } from "../../contex/web3Context";
-import { DropzoneArea } from "material-ui-dropzone";
+import { DropzoneArea } from "react-mui-dropzone";
 const defaultValues = {
   firstName: "JANE",
   lastName: "KENNEDY",
