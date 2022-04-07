@@ -31,6 +31,7 @@ export default function SearchRememberance() {
 
     try {
       for (let i = startBlockNumber; i < endBlokcNumber; i += 5000) {
+        console.time("getEpitaphs");
         const _startBlock = i;
         const _endBlock = Math.min(endBlokcNumber, i + 4999);
         const filter = await filterEpitaphs(
@@ -40,7 +41,8 @@ export default function SearchRememberance() {
           _startBlock,
           _endBlock
         );
-        console.log("filter", filter);
+        console.timeEnd("getEpitaphs");
+
         if (filter.length > 0) {
           for (let i = 0; i < filter.length; i++) {
             const { args, transactionHash } = filter[i];
