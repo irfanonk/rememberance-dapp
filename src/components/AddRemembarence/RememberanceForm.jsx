@@ -14,7 +14,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import CircularProgress from "@mui/material/CircularProgress";
+import { CircularProgress, LinearProgress } from "@mui/material";
 import { web3Context } from "../../contex/web3Context";
 import { DropzoneArea } from "react-mui-dropzone";
 const defaultValues = {
@@ -29,7 +29,7 @@ const defaultValues = {
   picture: "",
 };
 
-const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
+const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
   const { networkId, account } = useContext(web3Context);
 
   const [formValues, setFormValues] = useState(defaultValues);
@@ -46,8 +46,8 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
     });
   };
   const handleDropChange = (files) => {
-    console.log("files", files);
     const { name, value } = files.target;
+    // console.log("files", files.target);
 
     setFormValues({
       ...formValues,
@@ -56,12 +56,17 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const objectUrl = URL.createObjectURL(formValues.picture);
-    setFormValues({
-      ...formValues,
-      pictureUrl: objectUrl,
-    });
-    setIsSumModalOpen(true);
+    const reader = new FileReader();
+
+    reader.readAsDataURL(formValues.picture);
+    reader.onload = (loadEvt) => {
+      // console.log("onload", loadEvt.target?.result);
+      setFormValues({
+        ...formValues,
+        pictureUrl: loadEvt.target?.result,
+      });
+      setIsSumModalOpen(true);
+    };
   };
 
   const onCreateClick = () => {
@@ -70,6 +75,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
         typeof formValues[k] === "string" &&
         (formValues[k] = formValues[k].trim())
     );
+    // console.log("formValues", formValues);
     onRememberanceSumbit(formValues);
   };
 
@@ -108,9 +114,44 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {formValues.notes}
           </Typography>
-          <Paper variant="elevation">
-            <img src={formValues.pictureUrl} />
+          <Paper style={{ textAlign: "center" }} variant="elevation">
+            <img
+              style={{ maxWidth: 400, maxHeight: "100%" }}
+              src={formValues.pictureUrl}
+            />
           </Paper>
+          {upload.isUploading ? (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+              <Typography
+                color={"primary"}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
+                Uploading image...
+              </Typography>
+            </Box>
+          ) : upload.isUploaded ? (
+            <>
+              <Typography
+                color={"green"}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
+                Image Uploaded!
+              </Typography>
+              <Typography
+                color={"primary"}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
+                Waiting for transaction to be confirmed...
+              </Typography>
+            </>
+          ) : (
+            ""
+          )}
+
           <Button
             sx={{ marginTop: 2, textAlign: "center", minWidth: "100%" }}
             disabled={isCreating}
@@ -227,6 +268,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating }) => {
                 }
               />
             </Grid>
+
             <Grid
               container
               item

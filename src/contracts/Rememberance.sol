@@ -19,6 +19,7 @@ contract Rememberance is Ownable {
       string birthCountry;
       string birthDate;
       string deathDate;
+      string imageUri;
       string notes;
   }
 
@@ -36,6 +37,7 @@ contract Rememberance is Ownable {
         string  birthCountry,
         string  birthDate,
         string  deathDate,
+        string imageUri,
         string  notes );
 
     constructor() {
@@ -54,6 +56,7 @@ contract Rememberance is Ownable {
         string memory _birthCountry,
         string memory _birthDate,
         string memory _deathDate,
+        string memory _imageUri,
         string memory _notes) public payable {
 
         require( msg.value == fee,"value should be exact to fee ");
@@ -65,6 +68,7 @@ contract Rememberance is Ownable {
             birthCountry:_birthCountry,
             birthDate :_birthDate,
             deathDate:_deathDate,
+            imageUri:_imageUri,
             notes:_notes
         });
         epitaphs[msg.sender].push(newEpitaph);
@@ -79,6 +83,7 @@ contract Rememberance is Ownable {
         _birthCountry,
         _birthDate,
         _deathDate,
+        _imageUri,
         _notes);
 
     }
