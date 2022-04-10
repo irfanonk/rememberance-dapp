@@ -22,7 +22,9 @@ export const Web3Provider = ({ children }) => {
   if (window.ethereum) {
     provider = new ethers.providers.Web3Provider(window.ethereum);
   } else {
-    provider = undefined;
+    provider = new ethers.providers.JsonRpcProvider(
+      "https://data-seed-prebsc-1-s1.binance.org:8545"
+    );
   }
 
   const contract = new ethers.Contract(
@@ -203,7 +205,7 @@ export const Web3Provider = ({ children }) => {
     }
   };
   const handleStartUp = async () => {
-    if (typeof window.ethereum != undefined) {
+    if (typeof window.ethereum !== "undefined") {
       const acc = await provider.listAccounts();
       if (acc.length > 0) {
         setAccount(acc[0]);
@@ -228,11 +230,15 @@ export const Web3Provider = ({ children }) => {
           setAccount([]);
         }
       });
+    } else {
+      const network = await provider.getNetwork();
+      setNetworkId(network.chainId);
     }
   };
 
   useEffect(() => {
     (async () => {
+      await loadWeb3();
       await handleStartUp();
     })();
 

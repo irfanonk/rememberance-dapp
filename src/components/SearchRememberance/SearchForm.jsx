@@ -5,7 +5,6 @@ import { web3Context } from "../../contex/web3Context";
 
 export default function SearchForm({ handleSubmit }) {
   const { networkId } = useContext(web3Context);
-
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -75,7 +74,7 @@ export default function SearchForm({ handleSubmit }) {
             justifyContent="center"
             alignItems="center"
           >
-            {!networkId ? (
+            {/* {!networkId ? (
               <Button
                 disabled={true}
                 variant="contained"
@@ -97,7 +96,19 @@ export default function SearchForm({ handleSubmit }) {
               >
                 Submit
               </Button>
-            )}
+            )} */}
+            <Button
+              disabled={
+                !formValues.firstName &&
+                !formValues.lastName &&
+                !formValues.birthCity
+              }
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </Card>

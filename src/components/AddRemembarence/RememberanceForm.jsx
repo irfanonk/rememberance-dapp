@@ -1,18 +1,20 @@
 import React, { useState, useContext } from "react";
 import { Grid, Paper } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { web3Context } from "../../contex/web3Context";
@@ -28,9 +30,12 @@ const defaultValues = {
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
   picture: "",
 };
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
-  const { networkId, account } = useContext(web3Context);
+  const { networkId, account, isSupportMetaMask } = useContext(web3Context);
 
   const [formValues, setFormValues] = useState(defaultValues);
 
@@ -81,11 +86,51 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
 
   return (
     <>
-      <Modal
+      <Dialog
+        fullScreen
         open={isSumModalOpen}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: "relative" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItem>
+            <ListItemText
+              primary="Name"
+              secondary={formValues.firstName + " " + formValues.lastName}
+            />
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <ListItemText
+              primary="Country"
+              secondary={formValues.birthCity + " / " + formValues.birthCountry}
+            />
+          </ListItem>
+        </List>
+      </Dialog>
+      <Modal
+        component={Paper}
+        open={false}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        style={{ overflow: "auto" }}
+        fullScreen={true}
       >
         <Box
           sx={{
@@ -96,7 +141,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
             bgcolor: "background.paper",
             border: "2px solid #000",
             boxShadow: 24,
-            p: 4,
+            padding: 2,
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -275,8 +320,9 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
               direction="row"
               justifyContent="center"
               alignItems="center"
+              margin={5}
             >
-              {!networkId ? (
+              {!isSupportMetaMask ? (
                 <Button
                   disabled={true}
                   variant="contained"
@@ -308,6 +354,18 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
                   Submit
                 </Button>
               )}
+              <Button
+                disabled={
+                  Object.values(formValues).filter(
+                    (v) => !v || (typeof v === "string" && v.trim() === "")
+                  ).length > 0
+                }
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Submit
+              </Button>
             </Grid>
           </Grid>
         </>

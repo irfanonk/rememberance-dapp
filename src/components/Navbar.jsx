@@ -20,7 +20,7 @@ import { ButtonGroup, Button } from "@mui/material";
 const pages = ["Add", "Search"];
 
 const Navbar = () => {
-  const { networkId, account, requestAccount, userBalance } =
+  const { networkId, account, isSupportMetaMask, requestAccount, userBalance } =
     useContext(web3Context);
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -122,7 +122,7 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {!networkId ? (
+            {!isSupportMetaMask ? (
               <Link
                 href="https://metamask.io"
                 target="_blank"
