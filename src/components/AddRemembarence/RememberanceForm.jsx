@@ -48,10 +48,6 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
   const handleDropChange = (files) => {
     const { name, value } = files.target;
     // console.log("files", files.target);
-    if (value) {
-      // const objectUrl = URL.createObjectURL(files.target.value);
-      // console.log("url", objectUrl);
-    }
 
     setFormValues({
       ...formValues,
@@ -60,7 +56,6 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    const objectUrl = URL.createObjectURL(formValues.picture);
     const reader = new FileReader();
 
     reader.readAsDataURL(formValues.picture);
@@ -80,6 +75,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
         typeof formValues[k] === "string" &&
         (formValues[k] = formValues[k].trim())
     );
+    // console.log("formValues", formValues);
     onRememberanceSumbit(formValues);
   };
 
@@ -118,18 +114,29 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {formValues.notes}
           </Typography>
-          <Paper variant="elevation">
-            <img src={formValues.pictureUrl} />
+          <Paper style={{ textAlign: "center" }} variant="elevation">
+            <img
+              style={{ maxWidth: 400, maxHeight: "100%" }}
+              src={formValues.pictureUrl}
+            />
           </Paper>
           {upload.isUploading ? (
             <Box sx={{ width: "100%" }}>
               <LinearProgress />
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <Typography
+                color={"primary"}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
                 Uploading image...
               </Typography>
             </Box>
           ) : upload.isUploaded ? (
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Typography
+              color={"green"}
+              id="modal-modal-description"
+              sx={{ mt: 2 }}
+            >
               Image Uploaded!
             </Typography>
           ) : (

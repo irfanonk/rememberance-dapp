@@ -53,6 +53,7 @@ export const Web3Provider = ({ children }) => {
       birthCountry,
       birthDate,
       deathDate,
+      imageUri,
       notes,
     } = data;
     const fee = await getFee();
@@ -66,6 +67,7 @@ export const Web3Provider = ({ children }) => {
         birthCountry,
         birthDate,
         deathDate,
+        imageUri,
         notes,
         options
       );

@@ -40,23 +40,28 @@ export default function AddRememberance() {
         token:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY0QzlhMzcwNjUyNjA5ODQwMjNjMzQwNmE1M0M4MDE0OTU0Y0RjRjQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDkzMjY1NzU2NTYsIm5hbWUiOiJyZW1lbWJlcmFuY2UifQ.zK888SqV4gkQULvuu506ggjMDfXzQdtZkGVDIN9ypr0",
       });
-      const newFile = new File([formValues.picture], formValues.picture.name, {
-        type: formValues.picture.type,
+      const fileName = formValues.picture.name;
+      const fileType = formValues.picture.type;
+
+      const newFile = new File([formValues.picture], fileName, {
+        type: fileType,
       });
-      const rootCid = await client.put([newFile], {
-        name: formValues.picture.name,
-      });
-      // const rootCid = await client.put(formValues.picture);
-      console.log("rootCid", rootCid);
       setUpload({ isUploading: false, isUploaded: true });
 
-      // console.log("imageUpload", imageUpload);
-      // console.log("base", imageUpload.cid.toString());
+      const cid = await client.put([newFile], {
+        name: formValues.picture.name,
+      });
+      // console.log("cid", cid, fileName);
+      const imageURI = `https://${cid}.ipfs.dweb.link/${fileName}`;
 
-      // const result = await createEpitaph(formValues);
-      // console.log("result", result);
+      formValues.imageUri = imageURI;
+
+      // console.log("formValues", formValues);
+
+      const result = await createEpitaph(formValues);
+      console.log("result", result);
       setIsCreating(false);
-      // setTxHash(result.transactionHash);
+      setTxHash(result.transactionHash);
     } catch (error) {
       console.log("error", error);
       setIsCreating(false);

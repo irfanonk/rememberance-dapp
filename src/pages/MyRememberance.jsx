@@ -32,6 +32,7 @@ export default function MyRememberance() {
                 birthCountry: epitaph.birthCountry,
                 birthDate: epitaph.birthDate,
                 deathDate: epitaph.deathDate,
+                imageUri: epitaph.imageUri,
                 notes: epitaph.notes,
               });
               setRememberances([...epitaphs]);

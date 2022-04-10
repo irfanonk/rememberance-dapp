@@ -39,6 +39,7 @@ export default function RememberanceCard({ epitaph }) {
     birthCountry,
     birthDate,
     deathDate,
+    imageUri,
     notes,
     txHash,
   } = epitaph;
@@ -71,7 +72,7 @@ export default function RememberanceCard({ epitaph }) {
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image={imageUri}
         alt={`${firstName} ${lastName}`}
       />
       <CardContent sx={{}}>
