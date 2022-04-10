@@ -48,14 +48,15 @@ export default function MyRememberance() {
   }, [account]);
 
   return (
-    <Container sx={{ padding: 2 }}>
-      <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+    <Container maxWidth={false} sx={{ py: 2 }}>
+      <Grid sx={{ flexGrow: 1 }} spacing={2}>
         <Grid item xs={12}>
           <Grid
             container
+            xs={12}
             justifyContent="center"
             alignItems="center"
-            spacing={2}
+            spacing={1}
           >
             {rememberances.length > 0 ? (
               rememberances.map((epitaph, index) => (

@@ -73,7 +73,7 @@ export default function SearchRememberance() {
   };
 
   return (
-    <Container sx={{ padding: 2 }}>
+    <Container maxWidth={false} sx={{ padding: 2 }}>
       <Grid
         sx={{ flexGrow: 1, justifyContent: "center" }}
         container
