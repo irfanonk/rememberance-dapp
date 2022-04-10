@@ -86,6 +86,9 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
+              <MenuItem onClick={() => navigate(`/`)}>
+                <Typography textAlign="center">{"Home"}</Typography>
+              </MenuItem>
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                   <Typography textAlign="center">{page}</Typography>

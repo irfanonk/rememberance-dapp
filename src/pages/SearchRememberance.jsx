@@ -1,7 +1,7 @@
 import { Container, Grid, Typography, Alert } from "@mui/material";
 import React, { useEffect, useContext, useState } from "react";
 import RememberanceCard from "../components/MyRememberance/RememberanceCard";
-import SearchBar from "../components/SearchRememberance/SearchForm";
+import SearchForm from "../components/SearchRememberance/SearchForm";
 import { web3Context } from "../contex/web3Context";
 import { startBlockNumber } from "../contracts/constants";
 
@@ -79,7 +79,7 @@ export default function SearchRememberance() {
         container
         spacing={2}
       >
-        <SearchBar handleSubmit={handleSubmit} />
+        <SearchForm handleSubmit={handleSubmit} />
       </Grid>
       <Grid sx={{ flexGrow: 1 }} container spacing={2}>
         <Grid item xs={12}>

@@ -30,7 +30,7 @@ export default function SearchForm({ handleSubmit }) {
 
   return (
     <form onSubmit={onSubmit}>
-      <Card sx={{ margin: 5, padding: 2, minWidth: "100%", height: "auto" }}>
+      <Card sx={{ margin: 5, padding: 2, height: "auto" }}>
         <CardHeader title="Search" subheader="Search for a rememberance" />
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
