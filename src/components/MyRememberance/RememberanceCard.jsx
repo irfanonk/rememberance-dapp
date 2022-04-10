@@ -71,7 +71,8 @@ export default function RememberanceCard({ epitaph }) {
       />
       <CardMedia
         component="img"
-        height="194"
+        width={400}
+        minHeight={300}
         image={imageUri}
         alt={`${firstName} ${lastName}`}
       />
