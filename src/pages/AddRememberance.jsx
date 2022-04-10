@@ -19,6 +19,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Web3Storage } from "web3.storage";
 export default function AddRememberance() {
+  console.log("env", process.env);
   const navigate = useNavigate();
   const { createEpitaph } = useContext(web3Context);
   const [isCreating, setIsCreating] = useState(false);
@@ -41,9 +42,10 @@ export default function AddRememberance() {
       // const imageUpload = await ipfs.add(formValues.picture);
 
       const client = new Web3Storage({
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY0QzlhMzcwNjUyNjA5ODQwMjNjMzQwNmE1M0M4MDE0OTU0Y0RjRjQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDkzMjY1NzU2NTYsIm5hbWUiOiJyZW1lbWJlcmFuY2UifQ.zK888SqV4gkQULvuu506ggjMDfXzQdtZkGVDIN9ypr0",
+        token: process.env.REACT_APP_WEB3_STORAGE_TOKEN,
       });
+      console.log("client", client);
+
       const fileName = formValues.picture.name;
       const fileType = formValues.picture.type;
 

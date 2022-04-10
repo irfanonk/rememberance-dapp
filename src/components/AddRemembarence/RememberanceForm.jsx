@@ -157,7 +157,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
             <ListItemText primary={formValues.notes} />
           </ListItem>
           <Divider />
-          <ListItem>
+          <ListItem sx={{ justifyContent: "center" }}>
             <Paper style={{ textAlign: "center" }} variant="elevation">
               <img
                 style={{ maxWidth: 350, maxHeight: "100%" }}
@@ -312,18 +312,6 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
                   Submit
                 </Button>
               )}
-              <Button
-                disabled={
-                  Object.values(formValues).filter(
-                    (v) => !v || (typeof v === "string" && v.trim() === "")
-                  ).length > 0
-                }
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Submit
-              </Button>
             </Grid>
           </Grid>
         </>
