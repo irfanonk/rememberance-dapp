@@ -132,13 +132,22 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
               </Typography>
             </Box>
           ) : upload.isUploaded ? (
-            <Typography
-              color={"green"}
-              id="modal-modal-description"
-              sx={{ mt: 2 }}
-            >
-              Image Uploaded!
-            </Typography>
+            <>
+              <Typography
+                color={"green"}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
+                Image Uploaded!
+              </Typography>
+              <Typography
+                color={"primary"}
+                id="modal-modal-description"
+                sx={{ mt: 2 }}
+              >
+                Waiting for transaction to be confirmed...
+              </Typography>
+            </>
           ) : (
             ""
           )}

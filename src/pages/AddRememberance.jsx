@@ -46,15 +46,15 @@ export default function AddRememberance() {
       const newFile = new File([formValues.picture], fileName, {
         type: fileType,
       });
-      setUpload({ isUploading: false, isUploaded: true });
 
       const cid = await client.put([newFile], {
         name: formValues.picture.name,
       });
       // console.log("cid", cid, fileName);
       const imageURI = `https://${cid}.ipfs.dweb.link/${fileName}`;
-
       formValues.imageUri = imageURI;
+
+      setUpload({ isUploading: false, isUploaded: true });
 
       // console.log("formValues", formValues);
 
