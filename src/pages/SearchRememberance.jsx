@@ -55,6 +55,7 @@ export default function SearchRememberance() {
               birthCountry: args.birthCountry,
               birthDate: args.birthDate,
               deathDate: args.deathDate,
+              imageUri: args.imageUri,
               notes: args.notes,
               txHash: transactionHash,
             });
