@@ -158,10 +158,10 @@ const Navbar = () => {
                   }}
                 >
                   <Typography color={"white"} noWrap component="div">
-                    {formatBalance(userBalance)}
+                    {userBalance && formatBalance(userBalance)}
                   </Typography>
                   <Typography color={"white"} noWrap component="div">
-                    {formatAddress(account)}
+                    {account && formatAddress(account)}
                   </Typography>
                 </Box>
               </>

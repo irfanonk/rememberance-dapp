@@ -13,9 +13,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import Chip from "@mui/material/Chip";
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { web3Context } from "../../contex/web3Context";
 import { DropzoneArea } from "react-mui-dropzone";
@@ -92,8 +91,8 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
+        <AppBar sx={{ position: "relative", display: "flex" }}>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
             <IconButton
               edge="start"
               color="inherit"
@@ -102,113 +101,72 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
             >
               <CloseIcon />
             </IconButton>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
+            <Button autoFocus color="inherit" onClick={onCreateClick}>
+              {isCreating ? <CircularProgress color="inherit" /> : "Create"}
             </Button>
           </Toolbar>
         </AppBar>
+        <Box sx={{ width: "100%", textAlign: "center" }}>
+          {upload.isUploading ? (
+            <>
+              <LinearProgress />
+              <Chip
+                color="primary"
+                label="Uploading image..."
+                variant="outlined"
+              />
+            </>
+          ) : upload.isUploaded ? (
+            <>
+              <Chip
+                color="warning"
+                label="Waiting for transaction to be confirmed..."
+                variant="outlined"
+              />
+            </>
+          ) : (
+            ""
+          )}
+        </Box>
         <List>
+          <Typography
+            sx={{ p: 2, textAlign: "center" }}
+            variant="h6"
+            component="div"
+          >
+            Please review your information!
+          </Typography>
           <ListItem>
             <ListItemText
-              primary="Name"
-              secondary={formValues.firstName + " " + formValues.lastName}
+              primary={formValues.firstName + " " + formValues.lastName}
             />
           </ListItem>
           <Divider />
           <ListItem>
             <ListItemText
-              primary="Country"
-              secondary={formValues.birthCity + " / " + formValues.birthCountry}
+              primary={formValues.birthCity + " / " + formValues.birthCountry}
             />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary={formValues.birthDate + " " + formValues.deathDate}
+            />
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <ListItemText primary={formValues.notes} />
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Paper style={{ textAlign: "center" }} variant="elevation">
+              <img
+                style={{ maxWidth: 350, maxHeight: "100%" }}
+                src={formValues.pictureUrl}
+              />
+            </Paper>
           </ListItem>
         </List>
       </Dialog>
-      <Modal
-        component={Paper}
-        open={false}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        style={{ overflow: "auto" }}
-        fullScreen={true}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            padding: 2,
-          }}
-        >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Please confirm your submission
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {formValues.firstName} {formValues.lastName}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {formValues.birthCity} {formValues.birthCountry}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {formValues.birthDate} {formValues.deathDate}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {formValues.notes}
-          </Typography>
-          <Paper style={{ textAlign: "center" }} variant="elevation">
-            <img
-              style={{ maxWidth: 400, maxHeight: "100%" }}
-              src={formValues.pictureUrl}
-            />
-          </Paper>
-          {upload.isUploading ? (
-            <Box sx={{ width: "100%" }}>
-              <LinearProgress />
-              <Typography
-                color={"primary"}
-                id="modal-modal-description"
-                sx={{ mt: 2 }}
-              >
-                Uploading image...
-              </Typography>
-            </Box>
-          ) : upload.isUploaded ? (
-            <>
-              <Typography
-                color={"green"}
-                id="modal-modal-description"
-                sx={{ mt: 2 }}
-              >
-                Image Uploaded!
-              </Typography>
-              <Typography
-                color={"primary"}
-                id="modal-modal-description"
-                sx={{ mt: 2 }}
-              >
-                Waiting for transaction to be confirmed...
-              </Typography>
-            </>
-          ) : (
-            ""
-          )}
-
-          <Button
-            sx={{ marginTop: 2, textAlign: "center", minWidth: "100%" }}
-            disabled={isCreating}
-            onClick={onCreateClick}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            {isCreating ? <CircularProgress /> : "Create"}
-          </Button>
-        </Box>
-      </Modal>
       <form onSubmit={handleSubmit}>
         <>
           <Grid container spacing={2} marginTop={2}>

@@ -12,7 +12,11 @@ import { useNavigate } from "react-router-dom";
 import RememberanceForm from "../components/AddRemembarence/RememberanceForm";
 import { web3Context } from "../contex/web3Context";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
-// import { create, CID, IPFSHTTPClient } from "ipfs-http-client";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { Web3Storage } from "web3.storage";
 export default function AddRememberance() {
   const navigate = useNavigate();
@@ -72,60 +76,33 @@ export default function AddRememberance() {
   };
   return (
     <Container>
-      <Modal
+      <Dialog
+        fullWidth={false}
+        maxWidth={"xl"}
         open={txHash}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        onClose={handleClose}
       >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            textAlign: "center",
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          {/* <Paper variant="elevation">
-            <img
-              src={
-                "https://bafybeiaxmgtzusnsiqtnz6rgugjbc3xv3p7e57mw6jxo5yjyyvwgcbybmu.ipfs.dweb.link/sword-and-shield.jpg"
-              }
-            />
-          </Paper> */}
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            You have successfully created your rememberance!
-          </Typography>
-          <Link
-            href={`https://rinkeby.etherscan.io/tx/${txHash}`}
-            target="_blank"
-            rel="noopenner noreferrer"
-            underline="none"
-          >
-            <Typography
-              id="modal-modal-description"
-              sx={{ my: 2, display: "flex", gap: 1 }}
+        <DialogTitle color="text.primary" sx={{ textAlign: "center" }}>
+          You have successfully created your rememberance!
+        </DialogTitle>
+        <DialogContent sx={{ textAlign: "center" }}>
+          <DialogContentText>
+            <Link
+              href={`https://testnet.bscscan.com/tx/${txHash}`}
+              target="_blank"
+              rel="noopenner noreferrer"
+              underline="none"
+              sx={{ display: "flex", gap: 1 }}
             >
-              {txHash}
+              <Typography noWrap>{txHash}</Typography>
               <TravelExploreIcon />
-            </Typography>
-          </Link>
-          <Button
-            sx={{ textAlign: "center", minWidth: "100%" }}
-            disabled={isCreating}
-            onClick={handleClose}
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
-            Close
-          </Button>
-        </Box>
-      </Modal>
+            </Link>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
       <RememberanceForm
         isCreating={isCreating}
         upload={upload}
