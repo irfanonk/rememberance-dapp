@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import RememberanceForm from "../components/AddRemembarence/RememberanceForm";
 import { web3Context } from "../contex/web3Context";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
-import { create, CID, IPFSHTTPClient } from "ipfs-http-client";
+// import { create, CID, IPFSHTTPClient } from "ipfs-http-client";
 import { Web3Storage } from "web3.storage";
 export default function AddRememberance() {
   const navigate = useNavigate();
@@ -40,7 +40,13 @@ export default function AddRememberance() {
         token:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY0QzlhMzcwNjUyNjA5ODQwMjNjMzQwNmE1M0M4MDE0OTU0Y0RjRjQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDkzMjY1NzU2NTYsIm5hbWUiOiJyZW1lbWJlcmFuY2UifQ.zK888SqV4gkQULvuu506ggjMDfXzQdtZkGVDIN9ypr0",
       });
-      const rootCid = await client.put(formValues.picture);
+      const newFile = new File([formValues.picture], formValues.picture.name, {
+        type: formValues.picture.type,
+      });
+      const rootCid = await client.put([newFile], {
+        name: formValues.picture.name,
+      });
+      // const rootCid = await client.put(formValues.picture);
       console.log("rootCid", rootCid);
       setUpload({ isUploading: false, isUploaded: true });
 

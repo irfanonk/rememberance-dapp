@@ -47,6 +47,11 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
   };
   const handleDropChange = (files) => {
     const { name, value } = files.target;
+    // console.log("files", files.target);
+    if (value) {
+      // const objectUrl = URL.createObjectURL(files.target.value);
+      // console.log("url", objectUrl);
+    }
 
     setFormValues({
       ...formValues,
@@ -56,11 +61,17 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const objectUrl = URL.createObjectURL(formValues.picture);
-    setFormValues({
-      ...formValues,
-      pictureUrl: objectUrl,
-    });
-    setIsSumModalOpen(true);
+    const reader = new FileReader();
+
+    reader.readAsDataURL(formValues.picture);
+    reader.onload = (loadEvt) => {
+      // console.log("onload", loadEvt.target?.result);
+      setFormValues({
+        ...formValues,
+        pictureUrl: loadEvt.target?.result,
+      });
+      setIsSumModalOpen(true);
+    };
   };
 
   const onCreateClick = () => {
