@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import RememberanceForm from "../components/AddRemembarence/RememberanceForm";
-import { web3Context } from "../contex/web3Context";
+import RememberanceForm from "../../components/AddRemembarence/RememberanceForm";
+import { web3Context } from "../../contex/web3Context";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";

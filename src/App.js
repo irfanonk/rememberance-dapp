@@ -1,4 +1,4 @@
-import AddRememberance from "./pages/AddRememberance";
+import AddRememberance from "./pages/add/AddRememberance";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import MyRememberance from "./pages/MyRememberance";
