@@ -1,7 +1,8 @@
 {
-  "name": "rememberance",
+  "name": "cryobit",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/cryobit/",
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
@@ -10,10 +11,12 @@
     "@mui/material": "^5.5.3",
     "@mui/styled-engine-sc": "^5.5.2",
     "@mui/styles": "^5.6.0",
+    "@openzeppelin/contracts": "^4.6.0",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "ethers": "^5.6.2",
+    "history": "^5.3.0",
     "ipfs-http-client": "^56.0.2",
     "material-ui-dropzone": "^3.5.0",
     "react": "^18.0.0",

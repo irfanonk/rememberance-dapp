@@ -85,12 +85,12 @@ export default function AddRememberance() {
         onClose={handleClose}
       >
         <DialogTitle color="text.primary" sx={{ textAlign: "center" }}>
-          You have successfully created your rememberance!
+          You have successfully created your CryObit!
         </DialogTitle>
         <DialogContent sx={{ textAlign: "center" }}>
           <DialogContentText>
             <Link
-              href={`https://testnet.bscscan.com/tx/${txHash}`}
+              href={`https://testnet.bscscan.com/address/${txHash}`}
               target="_blank"
               rel="noopenner noreferrer"
               underline="none"

@@ -67,7 +67,7 @@ export default function RememberanceCard({ epitaph }) {
           </Avatar>
         }
         title={`${firstName} ${lastName}`}
-        subheader={`${birthDate}, ${deathDate} in ${birthCity}, ${birthCountry}`}
+        subheader={`Born On: ${birthDate} in ${birthCity}, ${birthCountry} Died On: ${deathDate} `}
       />
       <CardMedia
         component="img"
@@ -84,7 +84,7 @@ export default function RememberanceCard({ epitaph }) {
       <CardActions disableSpacing>
         {txHash && (
           <Link
-            href={`https://rinkeby.etherscan.io/tx/${txHash}`}
+            href={`https://testnet.bscscan.com/address/${txHash}`}
             target="_blank"
             rel="noopenner noreferrer"
             underline="none"

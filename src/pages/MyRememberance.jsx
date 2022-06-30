@@ -9,18 +9,18 @@ export default function MyRememberance() {
 
   const [rememberances, setRememberances] = useState([]);
   const [message, setMessage] = useState(
-    "Please connect to MetaMask to view your rememberances."
-  );
+    "Please connect to MetaMask to add a CryObit (Obituary That lives forever on the block-chain)."
+    );
 
   useEffect(() => {
     if (account) {
       (async () => {
         let epitaphs = [];
         try {
-          setMessage("You have no rememberances.");
+          setMessage("You have no CryObits.");
           const count = await getAddressEpitaphCount(account);
           if (count > 0) {
-            setMessage("Getting your rememberances...");
+            setMessage("Getting your CryObits...");
             for (let i = 0; i < count; i++) {
               const epitaph = await getEpitaphs(account, i);
               // console.log("epitaph", epitaph);
