@@ -8,7 +8,7 @@ export default function SearchForm({ handleSubmit }) {
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
-    birthCity: "PENNSYLVANIA",
+    birthCity: "",
   });
 
   const handleInputChange = (e) => {
@@ -30,7 +30,7 @@ export default function SearchForm({ handleSubmit }) {
   return (
     <form onSubmit={onSubmit}>
       <Card sx={{ margin: 5, padding: 2, height: "auto" }}>
-        <CardHeader title="Search" subheader="Search for a rememberance" />
+        <CardHeader title="Search" subheader="Find a CryObit" />
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <TextField
