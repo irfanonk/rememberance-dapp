@@ -19,14 +19,14 @@ import { CircularProgress, LinearProgress } from "@mui/material";
 import { web3Context } from "../../contex/web3Context";
 import { DropzoneArea } from "react-mui-dropzone";
 const defaultValues = {
-  firstName: "JANE",
-  lastName: "KENNEDY",
-  birthCity: "PENNSYLVANIA",
-  birthCountry: "USA",
+  firstName: "",
+  lastName: "",
+  birthCity: "",
+  birthCountry: "",
   birthDate: "1940-01-01",
   deathDate: "2020-01-01",
   notes:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+    "",
   picture: "",
 };
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -248,7 +248,7 @@ const RememberanceForm = ({ onRememberanceSumbit, isCreating, upload }) => {
                 fullWidth
                 id="notes-input"
                 name="notes"
-                label="Notes"
+                label="Paste Official Obituary first then add personal remembrances last."
                 type="text"
                 multiline
                 minRows={3}
